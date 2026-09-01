@@ -1,0 +1,32 @@
+<!-- Regla personalizada: fuerza bruta SSH con login exitoso posterior -->
+<!-- Archivo: /var/ossec/etc/rules/local_rules.xml en el Wazuh Manager -->
+<!-- Tras editar, reiniciar: sudo systemctl restart wazuh-manager -->
+<!-- Probar con: sudo /var/ossec/bin/wazuh-logtest -->
+
+<group name="local,sshd,brute_force,">
+  <rule id="100010" level="12" frequency="10" timeframe="300">
+    <if_sid>5715</if_sid>
+    <if_matched_sid>5760</if_matched_sid>
+    <same_source_ip />
+    <description>Posible fuerza bruta SSH con exito: acceso a $(dstuser) desde $(srcip) tras multiples fallos previos</description>
+    <mitre>
+      <id>T1110</id>
+      <id>T1110.001</id>
+      <id>T1078</id>
+    </mitre>
+    <group>authentication_success,brute_force,</group>
+  </rule>
+</group>
+
+<!--
+CÓMO FUNCIONA:
+- Se evalúa cuando llega un evento rule.id 5715 (login correcto)
+- Wazuh comprueba si desde la misma IP, en los últimos 300 segundos,
+  se dispararon >= 10 alertas de rule.id 5760 (fallo de autenticación)
+- Si se cumple → alerta de nivel 12 correlando ambos eventos
+
+CÓMO PROBAR con wazuh-logtest:
+Pega varias líneas "Failed password for soclab from 192.168.56.10 port XXXX ssh2"
+seguidas de "Accepted password for soclab from 192.168.56.10 port XXXX ssh2"
+y confirma que la última dispara la regla 100010
+-->
