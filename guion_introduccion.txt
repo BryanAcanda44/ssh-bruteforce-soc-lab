@@ -1,0 +1,18 @@
+Hola, en este vídeo vamos a montar un laboratorio de ciberseguridad completo desde cero.
+
+La idea es simular un escenario real: tenemos un servidor Ubuntu con SSH expuesto y vamos a
+atacarlo con un ataque de fuerza bruta desde Kali Linux, mientras Wazuh — un SIEM de código
+abierto — monitoriza todo y genera las alertas.
+
+Pero no nos quedamos ahí. Después del primer ataque vamos a aplicar hardening al servidor:
+vamos a endurecer la configuración SSH y vamos a instalar Fail2ban para que bloquee
+automáticamente los atacantes. Y luego repetimos el mismo ataque para ver qué pasa.
+
+Al final tendremos un informe comparativo que muestra exactamente qué diferencia hay entre
+atacar un servidor desprotegido y uno hardenizado — tanto en lo que ve el atacante como en
+lo que detecta el SIEM.
+
+El laboratorio está montado con dos máquinas virtuales en red aislada: Kali Linux como
+atacante y Ubuntu Server como objetivo, que además es donde corre Wazuh.
+
+Todo lo que hagamos aquí es en un entorno controlado y sobre sistemas propios.
